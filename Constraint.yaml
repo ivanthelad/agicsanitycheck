@@ -1,0 +1,15 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sForbiddenAnnotations
+metadata:
+  name: forbid-annotations
+spec:
+  match:
+    kinds:
+      - apiGroups: ["networking.k8s.io"]
+        kinds: ["Ingress"]
+  parameters:
+    message: "The following annotations are forbidden: %v"
+    annotations:
+      - "appgw.ingress.kubernetes.io/waf-policy-for-path"
+      - "example.com/forbidden-annotation-2"
+      - "other-denied-annotation-1"

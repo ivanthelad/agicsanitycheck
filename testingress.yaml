@@ -1,0 +1,68 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: happypath-ingress
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    example.com/forbidden-annotatidon-1: "true"
+spec:
+#  ingressClassName: azure-application-gateway
+  rules:
+  - host: myapp1.mydomain.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+--- 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fail-due-to-forbidden-annotations
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    description: "This test checks if a use is using the annotation kubernetes.io/ingress.class instead of the class name"
+    other-denied-annotation-1: "true"
+    appgw.ingress.kubernetes.io/waf-policy-for-path: "ishouldnotbesettingthis"
+spec:
+ # ingressClassName: azure-application-gateway
+  rules:
+  - host: myapp2.mydomain.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+--- 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fail-due-to-forbidden-annotations-with-classname
+  annotations:
+    other-denied-annotation-22: "true"
+    other-denied-annotation-1: "true"
+    description: "This test checks if a user is using the class name instead of the legacy annotation ingress.class"
+    appgw.ingress.kubernetes.io/waf-policy-for-path: "ishouldnotbesettingthis"
+spec:
+ # ingressClassName: azure-application-gateway
+  rules:
+  - host: myapp2.mydomain.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80
+--- 

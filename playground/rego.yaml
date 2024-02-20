@@ -1,0 +1,24 @@
+         package k8sforbiddenannotations
+
+          allow {
+            input.review.object.spec.ingressClassName == "myIngressClass"
+          }
+          allow {
+          input.review.object.metadata.annotations["kubernetes.io/ingress.class"] == "azure/application-gateway"
+          }
+          
+          
+            violation[{"msg": msg, "details": {"forbidden_annotations": denied_annotations}}] {
+                # iterate over all annotations in input
+              # input.review.object.metadata.annotations["kubernetes.io/ingress.class"] == "azure/application-gateway"
+                ## excluding the kubernetes.io/ingress.class annotation
+                input.review.object.metadata.annotations[key] 
+
+                # for each key, check if it's present in deny list -
+                # if using older OPA, you may need to use
+                # `denied_annotations[key]` instead, which does the same
+              # denied_annotations[key]    
+                denied_annotations := input.parameters.annotations
+          denied_annotations[_] == key
+                msg = sprintf("%s in denied annotations", [key])
+            }
