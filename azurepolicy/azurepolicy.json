@@ -160,7 +160,7 @@
         "details": {
           "templateInfo": {
             "sourceType": "PublicURL",
-            "url": "https://store.policy.core.windows.net/kubernetes/enforce-required-annotation/v1/template.yaml"
+            "url": "https://raw.githubusercontent.com/ivanthelad/agicsanitycheck/main/forbiddenannotation.yaml"
           },
           "apiGroups": [
             "networking.k8s.io"
@@ -293,3 +293,5 @@
       }
     }
   }
+
+  

@@ -9,7 +9,7 @@ spec:
         kinds: ["Ingress"]
   parameters:
     message: "The following annotations are forbidden: %v"
-    annotations:
+    forbiddenAnnotations:
       - "appgw.ingress.kubernetes.io/waf-policy-for-path"
       - "example.com/forbidden-annotation-2"
       - "other-denied-annotation-1"
