@@ -16,9 +16,7 @@ spec:
         openAPIV3Schema:
           type: object
           properties:
-            message:
-              type: string
-            annotations:
+            forbiddenAnnotations:
               type: array
               description: >-
                 A list of annotations that the object must not specify.
@@ -30,7 +28,7 @@ spec:
          package k8sforbiddenannotations
 
           allow {
-            input.review.object.spec.ingressClassName == "myIngressClass"
+            input.review.object.spec.ingressClassName == "azure-application-gateway"
           }
           allow {
           input.review.object.metadata.annotations["kubernetes.io/ingress.class"] == "azure/application-gateway"
@@ -47,7 +45,7 @@ spec:
                 # if using older OPA, you may need to use
                 # `denied_annotations[key]` instead, which does the same
               # denied_annotations[key]    
-                denied_annotations := input.parameters.annotations
+                denied_annotations := input.parameters.forbiddenAnnotations
           denied_annotations[_] == key
                 msg = sprintf("%s in denied annotations", [key])
             }

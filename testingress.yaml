@@ -53,7 +53,7 @@ metadata:
     description: "This test checks if a user is using the class name instead of the legacy annotation ingress.class"
     appgw.ingress.kubernetes.io/waf-policy-for-path: "ishouldnotbesettingthis"
 spec:
- # ingressClassName: azure-application-gateway
+  ingressClassName: azure-application-gateway
   rules:
   - host: myapp2.mydomain.com
     http:
