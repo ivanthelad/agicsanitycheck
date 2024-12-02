@@ -1,0 +1,21 @@
+kind: Suite
+apiVersion: test.gatekeeper.sh/v1alpha1
+metadata:
+  name: disallowedtags
+tests:
+- name: disallowed-tags
+  template: ../forbiddenannotation.yaml
+  constraint: ../Constraint.yaml
+  cases:
+  - name: happypath-ingress
+    object: tests/happypath.yaml
+    assertions:
+    - violations: no
+  - name: fail-due-to-forbidden-annotations
+    object: tests/fail-due-to-forbidden-annotations.yaml
+    assertions:
+    - violations: yes 
+  - name: fail-due-to-forbidden-annotations-with-classname
+    object: tests/fail-due-to-forbidden-annotations-with-classname.yaml
+    assertions:
+    - violations: yes

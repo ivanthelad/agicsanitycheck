@@ -39,13 +39,16 @@ spec:
                 # iterate over all annotations in input
               # input.review.object.metadata.annotations["kubernetes.io/ingress.class"] == "azure/application-gateway"
                 ## excluding the kubernetes.io/ingress.class annotation
+                ## [key]: This is a comprehension that iterates over all keys in the annotations map
                 input.review.object.metadata.annotations[key] 
 
                 # for each key, check if it's present in deny list -
                 # if using older OPA, you may need to use
                 # `denied_annotations[key]` instead, which does the same
-              # denied_annotations[key]    
+                # denied_annotations[key]    
+                ## Assign variable 
+                
                 denied_annotations := input.parameters.forbiddenAnnotations
-          denied_annotations[_] == key
+                denied_annotations[_] == key
                 msg = sprintf("%s in denied annotations", [key])
             }
